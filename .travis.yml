@@ -1,0 +1,21 @@
+language: python
+
+python:
+  - 2.7
+
+before_install:
+    - pip install pytest peewee
+
+script:
+    - pip install .
+    - nosetests --tests=tests --with-coverage
+
+after_success:
+  - coveralls
+
+notifications:
+    email:
+        recipients:
+            - felipevolpone@gmail.com
+        on_success: change
+        on_failure: always
