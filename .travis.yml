@@ -8,7 +8,7 @@ before_install:
 
 script:
     - pip install .
-    - nosetests --tests=tests --with-coverage
+    - nosetests --tests=tests --with-coverage --cover-package=active_peewee
 
 after_success:
   - coveralls
