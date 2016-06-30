@@ -1,5 +1,9 @@
 
+from active_peewee.active_peewee import ActivePeewee
 import unittest
 
+
 class TestActivePeeewee(unittest.TestCase):
-    pass
+
+    def test(self):
+        self.assertEqual('bla', ActivePeewee.bla())
