@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 def description():
     return """
-
+    Improving the Peewee ORM with ideas from Rails ActiveRecord
     """
 
 setup(
