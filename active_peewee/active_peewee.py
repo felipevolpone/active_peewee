@@ -15,22 +15,29 @@ class __ParseMeta(type):
     def __parse(self, method_name, *args):
         fields_to_parse = method_name.replace('filter_by_', '').split('_')
 
-        fields, operators = [], []
-        i = 0
-        for word in fields_to_parse:
-            if i % 2 == 0:
-                fields.append(word)
-            else:
-                operators.append(word)
-
-            i += 1
+        operators = ['gt', 'ge', 'lt', 'le', 'eq', 'df']
+        agregators = ['and', 'or']
 
         query = {}
-        if len(operators) == 1:
-            query['agregate'] = operators[0]
+        last_word = None
+        args_ordered = []
 
-        for idx, p in enumerate(args):
-            query[fields[idx]] = {'operator': 'eq', 'value': p}
+        for word in fields_to_parse:
+            if word not in operators and word not in agregators:  # its a field name
+                query[word] = {}
+                last_word = word
+                args_ordered.append(word)
+                continue
+
+            if word in operators:
+                query[last_word]['operator'] = word
+
+            if word in agregators:
+                query['agregate'] = word
+                last_word = word
+
+        for idx, argument_value in enumerate(args):
+            query[args_ordered[idx]]['value'] = argument_value
 
         return query
 

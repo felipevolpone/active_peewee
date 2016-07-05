@@ -18,20 +18,64 @@ class Person(peewee.Model):
 
 class TestActivePeeewee(unittest.TestCase):
 
+    maxDiff = None
+
     def setUp(self):
         db.create_tables([Person])
 
     def tearDown(self):
         db.drop_tables([Person])
 
-    def test_parse(self):
-        print 'asdauidhsaui', type(Person)
-        query = Person.filter_by_name_and_age('felipe', 30)
+    def test_eq(self):
+        query = Person.filter_by_name_eq_and_age_eq('felipe', 30)
 
         query_expected = {
             'name': {'operator': 'eq', 'value': 'felipe'},
             'age': {'operator': 'eq', 'value': 30},
             'agregate': 'and'
+        }
+        self.assertEqual(query_expected, query)
+
+        # testing with just one field
+        query = Person.filter_by_name_eq('felipe')
+
+        query_expected = {
+            'name': {'operator': 'eq', 'value': 'felipe'}
+        }
+
+        self.assertEqual(query_expected, query)
+
+    def test_gt(self):
+        query = Person.filter_by_age_gt(30)
+
+        query_expected = {'age': {'operator': 'gt', 'value': 30}}
+        self.assertEqual(query_expected, query)
+
+    def test_ge(self):
+        query = Person.filter_by_age_ge(30)
+
+        query_expected = {'age': {'operator': 'ge', 'value': 30}}
+        self.assertEqual(query_expected, query)
+
+    def test_lt(self):
+        query = Person.filter_by_age_lt(30)
+
+        query_expected = {'age': {'operator': 'lt', 'value': 30}}
+        self.assertEqual(query_expected, query)
+
+    def test_le(self):
+        query = Person.filter_by_age_le(30)
+
+        query_expected = {'age': {'operator': 'le', 'value': 30}}
+        self.assertEqual(query_expected, query)
+
+    def test_or(self):
+        query = Person.filter_by_name_eq_or_age_eq('felipe', 30)
+
+        query_expected = {
+            'name': {'operator': 'eq', 'value': 'felipe'},
+            'age': {'operator': 'eq', 'value': 30},
+            'agregate': 'or'
         }
 
         self.assertEqual(query_expected, query)
