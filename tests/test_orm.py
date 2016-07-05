@@ -27,7 +27,7 @@ class TestActivePeeewee(unittest.TestCase):
         db.drop_tables([Person])
 
     def test_eq(self):
-        query = Person.filter_by_name_eq_and_age_eq('felipe', 30)
+        query = Person.filter_by_name_and_age('felipe', 30)
 
         query_expected = {
             'name': {'operator': 'eq', 'value': 'felipe'},
@@ -37,7 +37,7 @@ class TestActivePeeewee(unittest.TestCase):
         self.assertEqual(query_expected, query)
 
         # testing with just one field
-        query = Person.filter_by_name_eq('felipe')
+        query = Person.filter_by_name('felipe')
 
         query_expected = {
             'name': {'operator': 'eq', 'value': 'felipe'}
@@ -70,7 +70,7 @@ class TestActivePeeewee(unittest.TestCase):
         self.assertEqual(query_expected, query)
 
     def test_or(self):
-        query = Person.filter_by_name_eq_or_age_eq('felipe', 30)
+        query = Person.filter_by_name_or_age('felipe', 30)
 
         query_expected = {
             'name': {'operator': 'eq', 'value': 'felipe'},

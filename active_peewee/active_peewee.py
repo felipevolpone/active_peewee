@@ -15,7 +15,7 @@ class __ParseMeta(type):
     def __parse(self, method_name, *args):
         fields_to_parse = method_name.replace('filter_by_', '').split('_')
 
-        operators = ['gt', 'ge', 'lt', 'le', 'eq', 'df']
+        operators = ['gt', 'ge', 'lt', 'le', 'df']
         agregators = ['and', 'or']
 
         query = {}
@@ -38,6 +38,10 @@ class __ParseMeta(type):
 
         for idx, argument_value in enumerate(args):
             query[args_ordered[idx]]['value'] = argument_value
+
+        for field, options in query.iteritems():
+            if 'operator' not in options and field != 'agregate':
+                query[field]['operator'] = 'eq'
 
         return query
 
