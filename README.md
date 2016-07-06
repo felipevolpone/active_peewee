@@ -17,7 +17,7 @@ Instead of:
 User.select().where(and_(User.name == 'samuel l jackson', User.age == 100))
 ```
 
-### Usage
+### Using ActivePeewee
 
 Declare a Peewee model changing the metaclass of the class:
 ```python
