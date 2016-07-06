@@ -37,6 +37,8 @@ class User(MySQLModel):
 It's done! Now you can use the active_peewee syntax to do queries.
 Active Peewee don't create all combinations of all attributes of your model, actually it's create a query based
 on the name of the method that you called. So, you can *combine all attributes in any way*.
+
+
 **Important:** It's not possible two kinds of query aggregator at the same time; like: by_name_and_age_or_email.
 You have to use just "and" or "or" in the same method call.
 
