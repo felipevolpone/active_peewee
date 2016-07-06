@@ -39,7 +39,7 @@ Active Peewee don't create all combinations of all attributes of your model, act
 on the name of the method that you called. So, you can *combine all attributes in any way*.
 
 
-**Important:** It's not possible two kinds of query aggregator at the same time; like: by_name_and_age_or_email.
+**Important:** It's not possible to use two kinds of query aggregator at the same time; like: by_name_and_age_or_email.
 You have to use just "and" or "or" in the same method call.
 
 #### Operators
