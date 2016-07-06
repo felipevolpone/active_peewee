@@ -48,12 +48,12 @@ User.by_name_or_email('samuel l jackson', 'l@jackson.com')
 
 **greather than operator**
 ```python
-User.by_name_or_email('samuel l jackson', 'l@jackson.com')
+User.by_age_gt(40)
 ```
 
 **greather equal operator**
 ```python
-User.by_age_ge(30)
+User.by_age_ge(40)
 ```
 
 **less than operator**
@@ -63,5 +63,5 @@ User.by_age_lt(40)
 
 **less equal operator**
 ```python
-User.by_age_le(50)
+User.by_age_le(40)
 ``''
