@@ -34,6 +34,8 @@ class User(MySQLModel):
 ```
 
 It's done! Now you can use the activepeewee syntax to do simple queries:
+
+
 **and using equal operator**
 ```python
 User.by_name_and_age('samuel l jackson', 99)
