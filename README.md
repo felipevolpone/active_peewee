@@ -25,6 +25,7 @@ from peewee import *
 from active_peewee.active_peewee import ActiveMeta
 
 class User(MySQLModel):
+    __metaclass__ = ActiveMeta
     name = CharField(max_length=140, null=True)
     email = CharField(max_length=140, null=True)
     age = IntegerField()
