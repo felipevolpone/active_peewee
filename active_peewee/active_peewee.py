@@ -1,5 +1,10 @@
 import peewee
 
+# TODO
+# [] arrumar readme (colocar exemplos; falar do eq; falar do agregador)
+# [] gerar de fato a query no peewee
+# [] publicar no PyPI
+
 
 class __ParseMeta(type):
 
@@ -7,13 +12,13 @@ class __ParseMeta(type):
         """here is where the magic happens."""
 
         def inner(*args, **kwargs):
-            return self.__parse(method_name, *args)
+            return self._parse(method_name, *args)
 
         inner.__name__ = method_name
         return inner
 
-    def __parse(self, method_name, *args):
-        fields_to_parse = method_name.replace('filter_by_', '').split('_')
+    def _parse(self, method_name, *args):
+        fields_to_parse = method_name.replace('by_', '').split('_')
 
         operators = ['gt', 'ge', 'lt', 'le', 'df']
         agregators = ['and', 'or']

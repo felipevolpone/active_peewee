@@ -1,3 +1,4 @@
+
 from setuptools import setup, find_packages
 
 
@@ -19,7 +20,7 @@ setup(
     install_requires=['peewee'],
     long_description="Check on github: http://github.com/felipevolpone/active_peewee",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 1 - Ready",
         "Topic :: Utilities",
     ]
 )
