@@ -5,9 +5,9 @@
 [![Code Climate](https://codeclimate.com/github/felipevolpone/active_peewee/badges/gpa.svg)](https://codeclimate.com/github/felipevolpone/active_peewee)
 
 
-Improving the Peewee ORM with ideas from Rails ActiveRecord
+Improving the [Peewee ORM](https://github.com/coleifer/peewee/) with ideas from Rails ActiveRecord.
 
-Dynamic methods to filter result in database. Such like:
+With Active Peewee you can use dynamic methods to filter result in database. Such like:
 ```python
 User.filter_by_name_and_age('samuel l jackson', 100)
 ```
@@ -16,3 +16,60 @@ Instead of:
 ```python
 User.select().where(and_(User.name == 'samuel l jackson', User.age == 100))
 ```
+
+### Using ActivePeewee
+
+Declare a Peewee model changing the metaclass of the class:
+```python
+from peewee import *
+from active_peewee.active_peewee import ActiveMeta
+
+class User(MySQLModel):
+    __metaclass__ = ActiveMeta
+    name = CharField(max_length=140, null=True)
+    email = CharField(max_length=140, null=True)
+    age = IntegerField()
+
+    class Meta:
+        database = db
+```
+
+It's done! Now you can use the active_peewee syntax to do queries.
+Active Peewee don't create all combinations of all attributes of your model, actually it's create a query based
+on the name of the method that you called. So, you can *combine all attributes in any way*.
+
+
+**Important:** It's not possible to use two kinds of query aggregator at the same time; like: by_name_and_age_or_email.
+You have to use just "and" or "or" in the same method call.
+
+#### Operators
+
+**and using equal operator**
+```python
+User.by_name_and_age('samuel l jackson', 99)
+```
+
+**or using equal operator**
+```python
+User.by_name_or_email('samuel l jackson', 'l@jackson.com')
+```
+
+**greather than operator**
+```python
+User.by_age_gt(40)
+```
+
+**greather equal operator**
+```python
+User.by_age_ge(40)
+```
+
+**less than operator**
+```python
+User.by_age_lt(40)
+```
+
+**less equal operator**
+```python
+User.by_age_le(40)
+``''
