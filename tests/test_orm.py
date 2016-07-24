@@ -7,8 +7,7 @@ import unittest
 db = peewee.SqliteDatabase('database.db')
 
 
-class User(peewee.Model):
-    __metaclass__ = ActiveMeta
+class User(ActiveMeta):
 
     name = peewee.CharField()
     age = peewee.IntegerField()
@@ -24,8 +23,14 @@ class TestORM(unittest.TestCase):
     def setUp(self):
         db.create_tables([User])
 
+        for name, age in [('felipe', 10), ('john', 20), ('max', 30)]:
+            User(name=name, age=10).save()
+
     def tearDown(self):
         db.drop_tables([User])
 
     def test_get(self):
-        self.assertEqual(2, 2)
+        result = User.by_name_and_age('felipe', 10)
+        user = result[0]
+        self.assertEqual(user.name, 'felipe')
+        self.assertEqual(user.age, 10)

@@ -1,23 +1,23 @@
 import peewee
 
 # TODO
-# [] arrumar readme (colocar exemplos; falar do eq; falar do agregador)
-# [] gerar de fato a query no peewee
-# [] publicar no PyPI
+# [] publish at PyPI
 
 
-class __ParseMeta(type):
+class ActiveMeta(peewee.Model):
 
     def __getattr__(self, method_name):
         """here is where the magic happens."""
 
         def inner(*args, **kwargs):
-            return self._parse(method_name, *args)
+            json_query = self._parse(method_name, *args)
+            return self._to_query(json_query)
 
         inner.__name__ = method_name
         return inner
 
-    def _parse(self, method_name, *args):
+    @classmethod
+    def _parse(cls, method_name, *args):
         fields_to_parse = method_name.replace('by_', '').split('_')
 
         operators = ['gt', 'ge', 'lt', 'le', 'df']
@@ -50,6 +50,31 @@ class __ParseMeta(type):
 
         return query
 
+    @classmethod
+    def _to_query(cls, json_query):
+        filter = cls.select()
 
-class ActiveMeta(__ParseMeta, peewee.BaseModel):
-    pass
+        for field, details in json_query.keys():
+
+            if field == 'agregate':
+                continue
+
+            if details['operator'] == 'eq':
+                filter = filter.where(field == details['value'])
+
+            elif details['operator'] == 'ge':
+                filter = filter.where(field >= details['value'])
+
+            elif details['operator'] == 'gt':
+                filter = filter.where(field > details['value'])
+
+            elif details['operator'] == 'lt':
+                filter = filter.where(field < details['value'])
+
+            elif details['operator'] == 'le':
+                filter = filter.where(field <= details['value'])
+
+            elif details['operator'] == 'df':
+                filter = filter.where(field != details['value'])
+
+        return filter
