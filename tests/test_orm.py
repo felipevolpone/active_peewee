@@ -7,7 +7,7 @@ import unittest
 db = peewee.SqliteDatabase('database.db')
 
 
-class Person(peewee.Model):
+class User(peewee.Model):
     __metaclass__ = ActiveMeta
 
     name = peewee.CharField()
@@ -17,66 +17,15 @@ class Person(peewee.Model):
         database = db
 
 
-class TestActivePeeewee(unittest.TestCase):
+class TestORM(unittest.TestCase):
 
     maxDiff = None
 
     def setUp(self):
-        db.create_tables([Person])
+        db.create_tables([User])
 
     def tearDown(self):
-        db.drop_tables([Person])
+        db.drop_tables([User])
 
-    def test_eq(self):
-        query = Person.by_name_and_age('felipe', 30)
-
-        query_expected = {
-            'name': {'operator': 'eq', 'value': 'felipe'},
-            'age': {'operator': 'eq', 'value': 30},
-            'agregate': 'and'
-        }
-        self.assertEqual(query_expected, query)
-
-        # testing with just one field
-        query = Person.by_name('felipe')
-
-        query_expected = {
-            'name': {'operator': 'eq', 'value': 'felipe'}
-        }
-
-        self.assertEqual(query_expected, query)
-
-    def test_gt(self):
-        query = Person.by_age_gt(30)
-
-        query_expected = {'age': {'operator': 'gt', 'value': 30}}
-        self.assertEqual(query_expected, query)
-
-    def test_ge(self):
-        query = Person.by_age_ge(30)
-
-        query_expected = {'age': {'operator': 'ge', 'value': 30}}
-        self.assertEqual(query_expected, query)
-
-    def test_lt(self):
-        query = Person.by_age_lt(30)
-
-        query_expected = {'age': {'operator': 'lt', 'value': 30}}
-        self.assertEqual(query_expected, query)
-
-    def test_le(self):
-        query = Person.by_age_le(30)
-
-        query_expected = {'age': {'operator': 'le', 'value': 30}}
-        self.assertEqual(query_expected, query)
-
-    def test_or(self):
-        query = Person.by_name_or_age('felipe', 30)
-
-        query_expected = {
-            'name': {'operator': 'eq', 'value': 'felipe'},
-            'age': {'operator': 'eq', 'value': 30},
-            'agregate': 'or'
-        }
-
-        self.assertEqual(query_expected, query)
+    def test_get(self):
+        self.assertEqual(2, 2)
