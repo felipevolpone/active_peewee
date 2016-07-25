@@ -4,14 +4,14 @@ import peewee
 # [] publish at PyPI
 
 
-class ActiveMeta(peewee.Model):
+class __ParseMeta(type):
 
     def __getattr__(self, method_name):
-        """here is where the magic happens."""
 
         def inner(*args, **kwargs):
-            json_query = self._parse(method_name, *args)
-            return self._to_query(json_query)
+            json_query = self.__class__._parse(method_name, *args)
+            # return self.__class__._to_query(json_query)
+            return json_query
 
         inner.__name__ = method_name
         return inner
@@ -52,11 +52,20 @@ class ActiveMeta(peewee.Model):
 
     @classmethod
     def _to_query(cls, json_query):
+        # e.g: json_query
+        # { 'name': {'operator': 'eq', 'value': 'felipe'},
+        #   'age': {'operator': 'eq', 'value': 30},
+        #   'agregate': 'or' }
+
         filter = cls.select()
 
-        for field, details in json_query.keys():
+        print json_query
+        for field, details in json_query.iteritems():
 
-            if field == 'agregate':
+            print 'field', field
+            print 'deitails', details
+
+            if field == 'agregate':  # FIXME query operator 'and' and 'or'
                 continue
 
             if details['operator'] == 'eq':
@@ -78,3 +87,7 @@ class ActiveMeta(peewee.Model):
                 filter = filter.where(field != details['value'])
 
         return filter
+
+
+class ActiveMeta(peewee.BaseModel, __ParseMeta):
+    pass

@@ -7,7 +7,7 @@ import unittest
 db = peewee.SqliteDatabase('database.db')
 
 
-class User(ActiveMeta):
+class User(peewee.Model):
 
     name = peewee.CharField()
     age = peewee.IntegerField()
@@ -15,7 +15,7 @@ class User(ActiveMeta):
     class Meta:
         database = db
 
-
+@unittest.skip('skip')
 class TestORM(unittest.TestCase):
 
     maxDiff = None

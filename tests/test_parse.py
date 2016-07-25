@@ -7,7 +7,8 @@ import unittest
 db = peewee.SqliteDatabase('database.db')
 
 
-class Person(ActiveMeta):
+class Person(peewee.Model):
+    __metaclass__ = ActiveMeta
 
     name = peewee.CharField()
     age = peewee.IntegerField()
